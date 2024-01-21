@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Post_BaseOnFileSystem;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -17,24 +19,15 @@ use Illuminate\Support\Facades\View;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('posts', [
+        'posts' => Post::all()
+    ]);
 });
 
-Route::get('posts/{post}', function ($slug) {
-    $post = Post::find($slug);
-    if (!View::exists("posts." . $slug)) {
-        return redirect('/');
-    }
-    try {
-        $postView = cache()
-            ->remember(
-                "posts." . $slug,
-                now()->addDay(),
-                fn() => view("posts." . $slug)->render());
-    } catch (\Exception $e) {
-        Log::error("Unable to cache the post: " . $e->getMessage());
-        $postView = view("posts." . $slug);
-    }
+Route::get('/posts/{post:slug}', function (Post $post) {
 
-    return $postView;
-})->where('post', '[A-z_\-]+');
+    return view('post', [
+        'post' => $post
+    ]);
+});
+
