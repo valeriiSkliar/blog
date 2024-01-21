@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Post_BaseOnFileSystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -25,9 +26,14 @@ Route::get('/', function () {
 });
 
 Route::get('/posts/{post:slug}', function (Post $post) {
-
     return view('post', [
         'post' => $post
     ]);
 });
 
+Route::get('categories/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts,
+
+    ]);
+});
