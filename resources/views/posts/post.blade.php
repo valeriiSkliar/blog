@@ -6,8 +6,7 @@
 </head>
 <body>
 <article>
-    <?= $post ?>
-
+    {{ $post }}
     <a href="/">Go back</a>
 </article>
 </body>
