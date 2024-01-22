@@ -10,11 +10,9 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Alpine from 'alpinejs'
-import Precognition from 'laravel-precognition-alpine';
 
 window.Alpine = Alpine
 
-// Alpine.plugin(Precognition);
 Alpine.start()
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
