@@ -1,17 +1,7 @@
 <x-layout>
-    @foreach($posts as $post)
-        <article>
-            <h1>
-                <a href="/posts/{{ $post->slug }}">{{$post->title}}</a>
-            </h1>
-            <span>Author: <b><a href="/authors/{{ $post->author->username }}">{{ $post->author->name }}</a></b></span>
-            <p>
-                <a href="/categories/{{ $post->category->slug }}">{{ $post->category->name }}</a>
-            </p>
-            <div>
-                {{ $post->excerpt }}
-            </div>
-        </article>
-    @endforeach
+    @include('_post-header')
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+        <x-posts-display-all :posts="$posts"></x-posts-display-all>
+    </main>
 </x-layout>
 

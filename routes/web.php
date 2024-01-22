@@ -23,25 +23,30 @@ use Illuminate\Support\Facades\View;
 Route::get('/', function () {
     return view('posts', [
         'posts' => Post::latest()->get(),
+        'categories' => Category::all(),
 //        'posts' => Post::latest()->with('category', 'author')->get(),
     ]);
 });
 
 Route::get('/posts/{post:slug}', function (Post $post) {
     return view('post', [
-        'post' => $post
+        'post' => $post,
+        'categories' => Category::all(),
     ]);
 });
 
 Route::get('/categories/{category:slug}', function (Category $category) {
     return view('posts', [
         'posts' => $category->posts,
+        'categories' => Category::all(),
+        'currentCategory' => $category,
 //        'posts' => $category->posts->load(['category', 'author']),
     ]);
 });
 Route::get('/authors/{author:username}', function (User $author) {
     return view('posts', [
         'posts' => $author->posts,
+        'categories' => Category::all(),
 //        'posts' => $author->posts->load(['category', 'author']),
     ]);
 });
