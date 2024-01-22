@@ -16,34 +16,27 @@ class Post extends Model
     protected $with = ['category', 'author'];
     public function scopeFilter($query, $filters): void
     {
-//        dd($filters['category']);
         $query->when($filters['search'] ??  false, fn($query, $search) =>
         $query
             ->where('title', 'like', '%' . $search . '%')
             ->orWhere('body', 'like', '%' . $search . '%')
         );
         $query->when($filters['category'] ?? false, fn($query, $category) =>
-            $query->whereHas('category', fn($query) =>
+            $query->whereHas('category',  fn($query) =>
                     $query->where('slug', $category)
                 )
         );
-//        if ($filters['search'] ?? false) {
-//            try {
-//                $query
-//                    ->where('title', 'like', '%' . request('search') . '%')
-//                    ->where('body', 'like', '%' . request('search') . '%');
-//            } catch (ModelNotFoundException $e) {
-//                $post = [];
-//                Log::info('No category found with search term: ' . request('search'));
-//            }
-//        }
+        $query->when($filters['author'] ?? false, fn($query, $author) =>
+            $query->whereHas('author', fn($query) =>
+                    $query->where('username', $author)
+                )
+        );
     }
-    public function category()
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
-
-    public function author()
+    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
