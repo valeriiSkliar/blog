@@ -16,47 +16,33 @@
         <div class="
         relative flex lg:inline-flex items-center
         bg-gray-100 rounded-xl">
-            <div class="
-            flex-1 appearance-none  bg-transparent py-2
-            pr-9 text-sm font-semibold"
-                 x-data="{ show: false }" @click.away="show = false"
-            >
-                <button
-                    class="inline-flex pl-3 w-32"
-                    @click="show = !show"
-                >
-                    {{ isset($currentCategory) ? $currentCategory->name : 'Categories' }}
-                    <svg
-                        class="
-                        transform -rotate-90 absolute pointer-events-none"
-                        style="right: 12px;" width="22"
-                         height="22" viewBox="0 0 22 22">
-                        <g fill="none" fill-rule="evenodd">
-                            <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z">
-                            </path>
-                            <path fill="#222"
-                                  d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
-                        </g>
-                    </svg>
-                </button>
-                <div
-                    style="display: none"
-                    x-show="show"
-                    class="mt-3 pt-3 absolute
-                    w-full bg-gray-100 rounded-xl">
-                        <a class="pl-3 pb-2 block text-left text-sm leading-6 hover:bg-blue-300 focus:bg-blue-300 hover:text-white focus:text-white " href="/">All</a>
+            <x-dropdown>
+                <x-slot name="trigger">
+                    <button
+                        class="inline-flex pl-3 w-32"
+                    >
+                        {{ isset($currentCategory) ? $currentCategory->name : 'Categories' }}
+                        <x-icon class="absolute pointer-events-none" name="arrow-down"/>
+                    </button>
+                </x-slot>
+                <x-dropdown-item
+                    :active="request()->routeIs('home')"
+                    href="/"
+                >All
+                </x-dropdown-item>
+                @if(isset($categories) && count($categories) > 0)
                     @foreach($categories as $category)
-                        <a class="
-                            pl-3 pb-2 block text-left text-sm leading-6 hover:bg-blue-300
-                            focus:bg-blue-300 hover:text-white focus:text-white
-                            {{ isset($currentCategory) && $currentCategory->is($category) ? "bg-blue-300 text-white" : "" }}"
-
+                        <x-dropdown-item
+                            :active='request()->is("categories/{$category->slug}")'
                             href="/categories/{{ $category->slug }}"
-                        >{{ ucwords($category->name) }}
-                        </a>
+                        >
+                            {{ ucwords($category->name) }}
+                        </x-dropdown-item>
                     @endforeach
-                </div>
-            </div>
+                @else
+                    <p>No categories found.</p>
+                @endif
+            </x-dropdown>
         </div>
 
         <!-- Other Filters -->
