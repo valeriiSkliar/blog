@@ -13,7 +13,7 @@
         style="display: none"
         x-show="show"
         class="
-        mt-3 pt-3 absolute
+        mt-3 pt-3 absolute overflow-auto max-h-52
         w-full bg-gray-100 rounded-xl"
     >
         {{ $slot }}

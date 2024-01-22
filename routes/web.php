@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Post_BaseOnFileSystem;
@@ -20,29 +21,19 @@ use Illuminate\Support\Facades\View;
 |
 */
 
-Route::get('/', function () {
-    return view('posts', [
-        'posts' => Post::latest()->get(),
-        'categories' => Category::all(),
-//        'posts' => Post::latest()->with('category', 'author')->get(),
-    ]);
-})->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-Route::get('/posts/{post:slug}', function (Post $post) {
-    return view('post', [
-        'post' => $post,
-        'categories' => Category::all(),
-    ]);
-});
+Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
-Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('posts', [
-        'posts' => $category->posts,
-        'categories' => Category::all(),
-        'currentCategory' => $category,
-//        'posts' => $category->posts->load(['category', 'author']),
-    ]);
-})->name('category');
+//Route::get('/categories/{category:slug}', function (Category $category) {
+//    return view('posts', [
+//        'posts' => $category->posts,
+//        'categories' => Category::all(),
+//        'currentCategory' => $category,
+////        'posts' => $category->posts->load(['category', 'author']),
+//    ]);
+//})->name('category');
+
 Route::get('/authors/{author:username}', function (User $author) {
     return view('posts', [
         'posts' => $author->posts,
