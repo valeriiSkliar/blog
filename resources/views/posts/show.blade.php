@@ -55,14 +55,51 @@
                     </div>
                 </div>
                 <section class="col-span-8 col-start-5 mt-3 space-y-6">
-                    <x-post-comment></x-post-comment>
-                    <x-post-comment></x-post-comment>
-                    <x-post-comment></x-post-comment>
-                    <x-post-comment></x-post-comment>
-                    <x-post-comment></x-post-comment>
+                    @auth()
+                        <form method="POST" action="/posts/{{ $post->slug }}/comments" class="border-gray-200  rounded-xl">
+                            @csrf
+                            <div class="flex-column items-center bg-gray-100 p-6 space-y-3 rounded-xl">
+                                <img class="rounded-full h-10 w-10 object-cover"
+                                     src="{{ 'https://i.pravatar.cc/60?u=' . auth()->id() }}"
+                                     alt="avatar"/>
+                                <span>{{ auth()?->user()->name }}</span>
+                                <div class="flex-1">
+                                    <label>
+                                    <textarea
+                                        name="body"
+                                        rows="2"
+                                        required
+                                        class="w-full py-3 border border-gray-200 rounded-xl resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-sm"
+                                        placeholder="Add your comment here">
+                                    </textarea>
+                                    </label>
+                                </div>
+                                <div class="flex justify-end ">
+                                    <button type="submit"
+                                            class="mt-3 px-5 py-2 rounded-xl bg-blue-500 text-white text-sm hover:bg-blue-600 transition ease-in-out duration-200">
+                                        Post Comment
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                        @else
+                        <p>
+                            <a href="/register">
+                                <b class="text-blue-500 hover:underline">Register</b>
+                            </a> or
+                            <a href="/login">
+                                <b class="text-blue-500 hover:underline">login</b>
+                            </a>to leave a comment!
+                        </p>
+                    @endauth
+                    @foreach($post->comments as $comment)
+                        <x-post-comment :comment="$comment"></x-post-comment>
+                    @endforeach
+                    @if(!$post->comments->count())
+                        <h4 class="p-3 bg-gray-200 rounded-xl">No comments eat!</h4>
+                    @endif
                 </section>
-
-
             </article>
         </section>
     </main>
