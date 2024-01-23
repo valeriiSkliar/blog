@@ -10,14 +10,14 @@
         </x-slot>
         <x-dropdown-item
             :active="request()->routeIs('home')"
-            href="/"
+            href="/?{{ http_build_query(request()->except('category', 'page')) }}"
         >All
         </x-dropdown-item>
         @if(isset($categories) && count($categories) > 0)
             @foreach($categories as $category)
                 <x-dropdown-item
                     :active='isset($currentCategory) && $currentCategory->is($category)'
-                    href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}"
+                    href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category', 'page')) }}"
                 >
                     {{ ucwords($category->name) }}
                 </x-dropdown-item>
