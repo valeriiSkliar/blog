@@ -23,13 +23,14 @@ class SessionController extends Controller
         ]);
 
         if (auth()->attempt($attributes)) {
-            session()->regenerate();
-            return redirect('/')->with('success', 'Welcome back!');
+            throw ValidationException::withMessages([
+                'email' => 'The provided credentials do not match our records.',
+            ]);
         }
 
-        throw ValidationException::withMessages([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        session()->regenerate();
+
+        return redirect('/')->with('success', 'Welcome back!');
 //        return back()
 //            ->withInput()
 //            ->withErrors([
