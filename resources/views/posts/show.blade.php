@@ -73,6 +73,9 @@
                                         placeholder="Add your comment here">
                                     </textarea>
                                     </label>
+                                    @error('body')
+                                        <span class="text-xs text-red-500" > {{ $message }} </span>
+                                    @enderror
                                 </div>
                                 <div class="flex justify-end ">
                                     <button type="submit"

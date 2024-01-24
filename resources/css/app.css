@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    scroll-behavior: smooth;
+}
 body {
     /*background: #4a5568;*/
 }
