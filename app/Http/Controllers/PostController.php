@@ -43,10 +43,10 @@ class PostController extends Controller
             'category_id' => ['required', Rule::exists('categories', 'id')],
 //            'user_id' => ['required', Rule::exists('users', 'id')],
         ]);
-//        dd($attributes);
         $attributes['slug'] = Str::slug($attributes['title']);
         $attributes['user_id'] = auth()->id();
-        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail');
+        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail', ['disk' => 'public']);
+//        dd($attributes);
 
         $post = Post::create($attributes);
             return redirect("/posts/{$post->slug}");
