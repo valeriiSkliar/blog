@@ -2,7 +2,7 @@
 
 <div class="
             flex-1 appearance-none  bg-transparent py-2
-            pr-9 text-sm font-semibold"
+            pr-9 text-sm font-semibold relative"
      x-data="{ show: false }" @click.away="show = false"
 >
 

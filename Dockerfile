@@ -4,5 +4,5 @@ LABEL authors="vs"
 ENTRYPOINT ["top", "-b"]
 
 
-RUN chown -R www-data:www-data storage \
+RUN chown -R root:root storage \
     && chmod -R 777 storage
